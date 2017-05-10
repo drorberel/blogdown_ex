@@ -91,9 +91,8 @@ This means it will serve up a web site from your content, but only that stored i
 Everything else will be tracked for version control, however.
 
 Of course, everything is actually being served into the `public/` folder, so we need to fix that.
-Open `config.toml` and add/modify the top of the file to include these two lines:
+Open `config.toml` and add/modify the top of the file to include this line:
 ```
-baseurl = "docs"
 publishDir = "docs"
 ```
 

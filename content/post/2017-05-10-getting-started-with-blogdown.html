@@ -50,9 +50,8 @@ tags: []
 <p>To begin, create a <a href="https://github.com/">GitHub</a> account if you do not already have one. GitHub Pages sites appear on the web at the address <code>username.github.io/repository_name</code>. You will also need to install <strong>git</strong> on your computer: download it from <a href="https://git-scm.com/">git-scm.com</a>, install it and make sure it is on your <code>PATH</code>.</p>
 <p>Now, in theory we can only track changes in the generated site, which would involve initialising a Git repository in your blogdown site directory’s <code>public/</code> folder. This seems silly to me: we never edit the HTML files directly so surely we want to keep track of the source code as well.</p>
 <p>In this case, create a new repository on GitHub and call it whatever you like. Go into the repository settings and scroll down to where it says “GitHub Pages”. Click on the dropdown box, underneath where it says “Source”. Select <strong>master branch /docs folder</strong>. This means it will serve up a web site from your content, but only that stored in the <code>docs/</code> subfolder. Everything else will be tracked for version control, however.</p>
-<p>Of course, everything is actually being served into the <code>public/</code> folder, so we need to fix that. Open <code>config.toml</code> and add/modify the top of the file to include these two lines:</p>
-<pre><code>baseurl = &quot;docs&quot;
-publishDir = &quot;docs&quot;</code></pre>
+<p>Of course, everything is actually being served into the <code>public/</code> folder, so we need to fix that. Open <code>config.toml</code> and add/modify the top of the file to include this line:</p>
+<pre><code>publishDir = &quot;docs&quot;</code></pre>
 <p>Now when you regenerate the site using</p>
 <pre class="r"><code>blogdown::serve_site()</code></pre>
 <p>or</p>
