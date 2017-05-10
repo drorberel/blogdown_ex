@@ -1,0 +1,132 @@
+---
+title: Getting started with blogdown
+author: David Selby
+date: '2017-05-10'
+slug: ''
+categories: ["R"]
+tags: []
+---
+
+[**Blogdown**](https://bookdown.org/yihui/blogdown/) is an R package that allows people to write web sites, especially weblogs, including R code and its output.
+
+By default, blogdown uses a programme called [Hugo](https://gohugo.io/), which converts Markdown files into static web sites.
+This is a bit like [Jekyll](https://jekyllrb.com/), the software behind [GitHub Pages](https://pages.github.com/).
+
+What blogdown adds is the ability to write *R* Markdown posts.
+These are converted directly into HTML via the **rmarkdown** R package, which itself uses [pandoc](http://pandoc.org/).
+
+The writing process works like this[^1]:
+
+```{r, fig.height = 2, echo = FALSE}
+DiagrammeR::mermaid("
+graph LR
+  A(R Markdown) --> B[Pandoc Markdown]
+  B --> C[HTML]
+  D(Blackfriday Markdown) --> C
+  C --> E((???))
+  E --> F((Profit))
+")
+```
+
+[^1]: Incidentally, this flow diagram was created using [DiagrammerR](http://rich-iannone.github.io/DiagrammeR/).
+
+As you can see, you have the choice of writing your posts in R Markdown, or, assuming you aren't including any executed R code, in Markdown directly.
+However, Hugo's own flavour of Markdown, "Blackfriday", is different to R Markdown syntax, which is based on pandoc.
+This can get very confusing quite quickly, so just write everything in R Markdown.
+If you don't need to run R chunks, simply don't include any in your `.Rmd` file.
+
+## Installation
+
+Blogdown and Hugo are easy to install on Windows, unlike Jekyll, which is written in Ruby and generally a pain in the arse.
+To install blogdown, run
+```r
+devtools::install_github('rstudio/blogdown')
+```
+whence you can install Hugo directly from within R:
+```r
+blogdown::install_hugo()
+```
+
+## Create a new site
+
+In RStudio, go **File > New Project... > New Directory > Empty Project**.
+Then run
+```r
+blogdown::create_site()
+```
+and everything you need to get started will magically appear!
+
+## Write a post
+
+Everything works exactly like a regular R Markdown document, except a few options in the YAML header.
+Some sample posts are generated when you first create the site, so you can try editing these.
+
+To create a new post, run
+```r
+blogdown::new_post('Title of your post goes here')
+```
+or simply create an `.Rmd` document from scratch in the `content/post/` folder.
+So that everything appears in the right order in a blog feed, file names should be prefixed with the publication date, in the format `YYYY-MM-DD-`.
+You will see in this folder that some posts are in plain Markdown as `.md` files and processed by Hugo.
+Files written in the `.Rmd` format (probably everything you are likely to write) are converted into html by `blogdown` and stored here, then served by Hugo.
+
+## Publish to GitHub Pages
+
+Some subtleties here, as the [blogdown documentation](https://bookdown.org/yihui/blogdown/deployment.html) is incomplete.
+Rather than GitHub Pages, blogdown's authors recommend alternative services such as [Netlify](https://www.netlify.com/) or [Updog](https://updog.co/), but I have not tried those yet.
+
+To begin, create a [GitHub](https://github.com/) account if you do not already have one.
+GitHub Pages sites appear on the web at the address `username.github.io/repository_name`.
+You will also need to install **git** on your computer:
+download it from [git-scm.com](https://git-scm.com/), install it and make sure it is on your `PATH`.
+
+Now, in theory we can only track changes in the generated site, which would involve initialising a Git repository in your blogdown site directory's `public/` folder.
+This seems silly to me: we never edit the HTML files directly so surely we want to keep track of the source code as well.
+
+In this case, create a new repository on GitHub and call it whatever you like.
+Go into the repository settings and scroll down to where it says "GitHub Pages".
+Click on the dropdown box, underneath where it says "Source".
+Select **master branch /docs folder**.
+This means it will serve up a web site from your content, but only that stored in the `docs/` subfolder.
+Everything else will be tracked for version control, however.
+
+Of course, everything is actually being served into the `public/` folder, so we need to fix that.
+Open `config.toml` and add/modify the top of the file to include these two lines:
+```
+baseurl = "docs"
+publishDir = "docs"
+```
+
+Now when you regenerate the site using
+```r
+blogdown::serve_site()
+```
+or
+```r
+blogdown::build_site()
+```
+it should put everything in `docs/` instead of `public/`.
+You can delete the `public/` folder now as it is no longer needed.
+
+In the main directory, create an empty file called `.nojekyll`.
+You can do this in R using `file.create('.nojekyll')`.
+This stops GitHub from trying to process your site using Jekyll; when you upload it, it will already have been generated by Hugo.
+
+Now, back in RStudio, go to **Tools > Project Options... > Git/SVN**. 
+At the "Version control system" dropdown box, select "Git".
+A dialogue box will ask if you would like to initialise a new Git repository.
+Say "yes".
+
+You should get a tab appearing in the top-right of your RStudio session that says "Git".
+Open this pane and tick *all* the boxes next to the files (or `docs/` and `.nojekyll` at the very least).
+Click "Commit" and enter a suitably descriptive message ("Initial commit" is popular for your first one), click "Commit" and close the pop-up dialogues once everything has completed.
+
+We want to connect our local git repository with the one on GitHub.
+To do that, in your **Git** tab, click **More > Shell...**.
+A command prompt (terminal) will open.
+Don't panic; just enter the following lines (which will be suggested to you on your GitHub repository page):
+```
+git remote add origin git@github.com:Selbosh/wrugdown.git
+git push -u origin master
+```
+replacing `Selbosh` with your own GitHub username and `wrugdown` with the name of your repository.

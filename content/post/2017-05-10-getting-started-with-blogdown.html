@@ -1,0 +1,69 @@
+---
+title: Getting started with blogdown
+author: David Selby
+date: '2017-05-10'
+slug: ''
+categories: ["R"]
+tags: []
+---
+
+<script src="/rmarkdown-libs/htmlwidgets/htmlwidgets.js"></script>
+<script src="/rmarkdown-libs/d3/d3.min.js"></script>
+<script src="/rmarkdown-libs/dagre/dagre-d3.min.js"></script>
+<link href="/rmarkdown-libs/mermaid/dist/mermaid.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/mermaid/dist/mermaid.slim.min.js"></script>
+<link href="/rmarkdown-libs/DiagrammeR-styles/styles.css" rel="stylesheet" />
+<script src="/rmarkdown-libs/chromatography/chromatography.js"></script>
+<script src="/rmarkdown-libs/DiagrammeR-binding/DiagrammeR.js"></script>
+
+
+<p><a href="https://bookdown.org/yihui/blogdown/"><strong>Blogdown</strong></a> is an R package that allows people to write web sites, especially weblogs, including R code and its output.</p>
+<p>By default, blogdown uses a programme called <a href="https://gohugo.io/">Hugo</a>, which converts Markdown files into static web sites. This is a bit like <a href="https://jekyllrb.com/">Jekyll</a>, the software behind <a href="https://pages.github.com/">GitHub Pages</a>.</p>
+<p>What blogdown adds is the ability to write <em>R</em> Markdown posts. These are converted directly into HTML via the <strong>rmarkdown</strong> R package, which itself uses <a href="http://pandoc.org/">pandoc</a>.</p>
+<p>The writing process works like this<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>:</p>
+<div id="htmlwidget-1" style="width:672px;height:192px;" class="DiagrammeR html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1">{"x":{"diagram":"\ngraph LR\n  A(R Markdown) --> B[Pandoc Markdown]\n  B --> C[HTML]\n  D(Blackfriday Markdown) --> C\n  C --> E((???))\n  E --> F((Profit))\n"},"evals":[],"jsHooks":[]}</script>
+<p>As you can see, you have the choice of writing your posts in R Markdown, or, assuming you aren’t including any executed R code, in Markdown directly. However, Hugo’s own flavour of Markdown, “Blackfriday”, is different to R Markdown syntax, which is based on pandoc. This can get very confusing quite quickly, so just write everything in R Markdown. If you don’t need to run R chunks, simply don’t include any in your <code>.Rmd</code> file.</p>
+<div id="installation" class="section level2">
+<h2>Installation</h2>
+<p>Blogdown and Hugo are easy to install on Windows, unlike Jekyll, which is written in Ruby and generally a pain in the arse. To install blogdown, run</p>
+<pre class="r"><code>devtools::install_github(&#39;rstudio/blogdown&#39;)</code></pre>
+<p>whence you can install Hugo directly from within R:</p>
+<pre class="r"><code>blogdown::install_hugo()</code></pre>
+</div>
+<div id="create-a-new-site" class="section level2">
+<h2>Create a new site</h2>
+<p>In RStudio, go <strong>File &gt; New Project… &gt; New Directory &gt; Empty Project</strong>. Then run</p>
+<pre class="r"><code>blogdown::create_site()</code></pre>
+<p>and everything you need to get started will magically appear!</p>
+</div>
+<div id="write-a-post" class="section level2">
+<h2>Write a post</h2>
+<p>Everything works exactly like a regular R Markdown document, except a few options in the YAML header. Some sample posts are generated when you first create the site, so you can try editing these.</p>
+<p>To create a new post, run</p>
+<pre class="r"><code>blogdown::new_post(&#39;Title of your post goes here&#39;)</code></pre>
+<p>or simply create an <code>.Rmd</code> document from scratch in the <code>content/post/</code> folder. So that everything appears in the right order in a blog feed, file names should be prefixed with the publication date, in the format <code>YYYY-MM-DD-</code>. You will see in this folder that some posts are in plain Markdown as <code>.md</code> files and processed by Hugo. Files written in the <code>.Rmd</code> format (probably everything you are likely to write) are converted into html by <code>blogdown</code> and stored here, then served by Hugo.</p>
+</div>
+<div id="publish-to-github-pages" class="section level2">
+<h2>Publish to GitHub Pages</h2>
+<p>Some subtleties here, as the <a href="https://bookdown.org/yihui/blogdown/deployment.html">blogdown documentation</a> is incomplete. Rather than GitHub Pages, blogdown’s authors recommend alternative services such as <a href="https://www.netlify.com/">Netlify</a> or <a href="https://updog.co/">Updog</a>, but I have not tried those yet.</p>
+<p>To begin, create a <a href="https://github.com/">GitHub</a> account if you do not already have one. GitHub Pages sites appear on the web at the address <code>username.github.io/repository_name</code>. You will also need to install <strong>git</strong> on your computer: download it from <a href="https://git-scm.com/">git-scm.com</a>, install it and make sure it is on your <code>PATH</code>.</p>
+<p>Now, in theory we can only track changes in the generated site, which would involve initialising a Git repository in your blogdown site directory’s <code>public/</code> folder. This seems silly to me: we never edit the HTML files directly so surely we want to keep track of the source code as well.</p>
+<p>In this case, create a new repository on GitHub and call it whatever you like. Go into the repository settings and scroll down to where it says “GitHub Pages”. Click on the dropdown box, underneath where it says “Source”. Select <strong>master branch /docs folder</strong>. This means it will serve up a web site from your content, but only that stored in the <code>docs/</code> subfolder. Everything else will be tracked for version control, however.</p>
+<p>Of course, everything is actually being served into the <code>public/</code> folder, so we need to fix that. Open <code>config.toml</code> and add/modify the top of the file to include these two lines:</p>
+<pre><code>baseurl = &quot;docs&quot;
+publishDir = &quot;docs&quot;</code></pre>
+<p>Now when you regenerate the site using</p>
+<pre class="r"><code>blogdown::serve_site()</code></pre>
+<p>or</p>
+<pre class="r"><code>blogdown::build_site()</code></pre>
+<p>it should put everything in <code>docs/</code> instead of <code>public/</code>. You can delete the <code>public/</code> folder now as it is no longer needed.</p>
+<p>In the main directory, create an empty file called <code>.nojekyll</code>. You can do this in R using <code>file.create('.nojekyll')</code>. This stops GitHub from trying to process your site using Jekyll; when you upload it, it will already have been generated by Hugo.</p>
+<p>Now, back in RStudio, go to <strong>Tools &gt; Project Options… &gt; Git/SVN</strong>. At the “Version control system” dropdown box, select “Git”. A dialogue box will ask if you would like to initialise a new Git repository. Say “yes”.</p>
+</div>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Incidentally, this flow diagram was created using <a href="http://rich-iannone.github.io/DiagrammeR/">DiagrammerR</a>.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>
