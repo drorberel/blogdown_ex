@@ -1,4 +1,4 @@
-baseurl = "docs"
+baseurl = ""
 publishDir = "docs"
 relativeurls = true
 languageCode = "en-us"
