@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en-us">
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="generator" content="Hugo 0.62.2" />
+
+
+<title>Untitled - WRUGdown - a blogdown example site</title>
+<meta property="og:title" content="Untitled - WRUGdown - a blogdown example site">
+
+
+
+  
+
+
+
+
+
+
+
+
+<link href='//cdn.bootcss.com/highlight.js/9.11.0/styles/github.min.css' rel='stylesheet' type='text/css' />
+
+
+
+<link rel="stylesheet" href="../../../../css/fonts.css" media="all">
+<link rel="stylesheet" href="../../../../css/main.css" media="all">
+
+
+
+  </head>
+  <body>
+    <div class="wrapper">
+      <header class="header">
+        <nav class="nav">
+  <a href="../../../../" class="nav-logo">
+    <img src="../../../../images/logo.png"
+         width="50"
+         height="50"
+         alt="Logo">
+  </a>
+
+  <ul class="nav-links">
+    
+    <li><a href="../../../../about/">About</a></li>
+    
+    <li><a href="https://github.com/Selbosh/wrugdown">GitHub</a></li>
+    
+    <li><a href="https://twitter.com/rstudio">Twitter</a></li>
+    
+  </ul>
+</nav>
+
+      </header>
+
+
+<main class="content" role="main">
+
+  <article class="article">
+    
+    <span class="article-duration">2 min read</span>
+    
+
+    <h1 class="article-title">Untitled</h1>
+
+    
+    <span class="article-date">0001/01/01</span>
+    
+
+    <div class="article-content">
+      
+
+
+<div id="r-markdown" class="section level2">
+<h2>R Markdown</h2>
+<p>This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <a href="http://rmarkdown.rstudio.com" class="uri">http://rmarkdown.rstudio.com</a>.</p>
+<p>When you click the <strong>Knit</strong> button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:</p>
+<pre class="r"><code>ff2 &lt;- read_csv(&#39;/Users/dberel/Desktop/TS_tsibble_scenarios/Pred_template.csv&#39;)</code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   Delta = col_number(),
+##   period = col_double(),
+##   dif_perc = col_character(),
+##   Channel = col_character(),
+##   Region = col_character(),
+##   Baseline = col_character(),
+##   Budget = col_character(),
+##   iGMB = col_character(),
+##   dGMB = col_number(),
+##   iAB = col_number(),
+##   iNoRBs = col_number(),
+##   `iGMB mROI` = col_character(),
+##   `dGMB mROI` = col_character(),
+##   `mCPA - iAB` = col_character(),
+##   `mCPA - iNoRB` = col_character(),
+##   `Channel Take rate` = col_character(),
+##   Comments = col_character()
+## )</code></pre>
+<pre class="r"><code>summary(ff2)</code></pre>
+<pre><code>##      Delta            period         dif_perc           Channel         
+##  Min.   :250000   Min.   :-7.000   Length:34          Length:34         
+##  1st Qu.:250000   1st Qu.:-2.000   Class :character   Class :character  
+##  Median :500000   Median : 2.000   Mode  :character   Mode  :character  
+##  Mean   :382353   Mean   : 1.971                                        
+##  3rd Qu.:500000   3rd Qu.: 6.000                                        
+##  Max.   :500000   Max.   :10.000                                        
+##     Region            Baseline            Budget              iGMB          
+##  Length:34          Length:34          Length:34          Length:34         
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##       dGMB                iAB             iNoRBs        iGMB mROI        
+##  Min.   :  6937194   Min.   : 38242   Min.   : 23097   Length:34         
+##  1st Qu.: 22196965   1st Qu.:122364   1st Qu.: 73902   Class :character  
+##  Median : 75724408   Median :697995   Median :477141   Mode  :character  
+##  Mean   : 58620940   Mean   :505346   Mean   :341302                     
+##  3rd Qu.: 94943510   3rd Qu.:875148   3rd Qu.:598241                     
+##  Max.   :105697654   Max.   :974275   Max.   :666003                     
+##   dGMB mROI          mCPA - iAB        mCPA - iNoRB       Channel Take rate 
+##  Length:34          Length:34          Length:34          Length:34         
+##  Class :character   Class :character   Class :character   Class :character  
+##  Mode  :character   Mode  :character   Mode  :character   Mode  :character  
+##                                                                             
+##                                                                             
+##                                                                             
+##    Comments        
+##  Length:34         
+##  Class :character  
+##  Mode  :character  
+##                    
+##                    
+## </code></pre>
+</div>
+
+    </div>
+  </article>
+
+  
+
+
+</main>
+
+      <footer class="footer">
+        <ul class="footer-links">
+          <li>
+            <a href="../../../../index.xml" type="application/rss+xml" target="_blank">RSS feed</a>
+          </li>
+          <li>
+            <a href="https://gohugo.io/" class="footer-links-kudos">Made with <img src="../../../../images/hugo-logo.png" width="22" height="22"></a>
+          </li>
+        </ul>
+      </footer>
+
+    </div>
+    
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/highlight.min.js"></script>
+
+
+
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/r.min.js"></script>
+<script src="//cdn.bootcss.com/highlight.js/9.11.0/languages/yaml.min.js"></script>
+<script>hljs.configure({languages: []}); hljs.initHighlightingOnLoad();</script>
+
+
+
+    
+
+    
+  </body>
+</html>
+
